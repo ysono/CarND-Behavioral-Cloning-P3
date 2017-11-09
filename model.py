@@ -1,3 +1,4 @@
+import argparse
 import csv
 import cv2
 import math
@@ -45,7 +46,7 @@ def generator(logs, batch_size = math.floor(128 / generator_multiplicity)):
     
     img_path = lambda dataset_dir, orig_file_path: '{}/IMG/{}'.format(dataset_dir, orig_file_path.split('/')[-1])
     
-    steering_correction = 0.1
+    steering_correction = 0.2
 
     while 1:
         logs = sklearn.utils.shuffle(logs)
@@ -85,6 +86,7 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Cropping2D, Dropout
 from keras.layers.convolutional import Convolution2D
 # from keras.layers.pooling import MaxPooling2D
+# from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 
 model = Sequential()
@@ -94,22 +96,24 @@ model.add(Convolution2D(24,5,5, subsample=(2,2), activation='relu'))
 model.add(Convolution2D(36,5,5, subsample=(2,2), activation='relu'))
 model.add(Convolution2D(48,5,5, subsample=(2,2), activation='relu'))
 model.add(Convolution2D(64,3,3, activation='relu'))
+model.add(Dropout(0.5))
 model.add(Convolution2D(64,3,3, activation='relu'))
 model.add(Flatten())
-model.add(Dropout(0.5))
-model.add(Dense(100))
+model.add(Dense(100, activation='relu'))
 model.add(Dense(50))
 model.add(Dense(10))
 model.add(Dense(1))
+
+# adam = Adam(lr=0.01, decay=0.005)
 model.compile(loss='mse', optimizer='adam')
 
-checkpoint = ModelCheckpoint('models/model_{epoch:02d}.h5', verbose=1)
+checkpoint = ModelCheckpoint(args.models_dir + '/model_{epoch:02d}.h5', verbose=1)
 history_object = model.fit_generator(
     train_generator,
     samples_per_epoch = len(train_logs) * generator_multiplicity,
     validation_data = validation_generator,
     nb_val_samples = len(validation_logs) * generator_multiplicity, 
-    nb_epoch = 5,
+    nb_epoch = 10,
     callbacks = [checkpoint],
     verbose = 1
 )
@@ -124,4 +128,4 @@ plt.title('model mean squared error loss')
 plt.ylabel('mean squared error loss')
 plt.xlabel('epoch')
 plt.legend(['training set', 'validation set'], loc='upper right')
-plt.savefig('models/history.png')
+plt.savefig('{}/history.png'.format(args.models_dir))
