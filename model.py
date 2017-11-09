@@ -46,7 +46,7 @@ def generator(logs, batch_size = math.floor(128 / generator_multiplicity)):
     
     img_path = lambda dataset_dir, orig_file_path: '{}/IMG/{}'.format(dataset_dir, orig_file_path.split('/')[-1])
     
-    steering_correction = 0.2
+    steering_correction = 0.1
 
     while 1:
         logs = sklearn.utils.shuffle(logs)
@@ -96,9 +96,9 @@ model.add(Convolution2D(24,5,5, subsample=(2,2), activation='relu'))
 model.add(Convolution2D(36,5,5, subsample=(2,2), activation='relu'))
 model.add(Convolution2D(48,5,5, subsample=(2,2), activation='relu'))
 model.add(Convolution2D(64,3,3, activation='relu'))
-model.add(Dropout(0.5))
 model.add(Convolution2D(64,3,3, activation='relu'))
 model.add(Flatten())
+model.add(Dropout(0.5))
 model.add(Dense(100, activation='relu'))
 model.add(Dense(50))
 model.add(Dense(10))
