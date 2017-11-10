@@ -1,0 +1,8 @@
+name: keras-dot
+dependencies:
+    - python==3.4
+    - h5py
+    - pydot-ng
+    - pip:
+        - tensorflow
+        - keras

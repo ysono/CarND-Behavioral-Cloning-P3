@@ -119,7 +119,7 @@ history_object = model.fit_generator(
 )
 
 import matplotlib
-matplotlib.use('SVG')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 plt.plot(history_object.history['loss'])
