@@ -97,7 +97,7 @@ There were a few spots where the vehicle fell off the track. To improve the driv
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
-[video.mp4](video.mp4) shows the car being driven at 9mph. The speed can be adjusted by changing [drive.py](drive.py) at line 47, but at higher speeds, the car swerves much worse (videos are omitted because they are large). Possible remedies are altering the model to also learn throttle, adjusting Kp and Ki control values, and adding more training samples for recovery at problem spots.
+[video.mp4](https://ysono.github.io/CarND-T1P3-Behavioral-Cloning/video.mp4) shows the car being driven at 9mph. The speed can be adjusted by changing [drive.py](drive.py) at line 47, but at higher speeds, the car swerves much worse (videos are omitted because they are large). Possible remedies are altering the model to also learn throttle, adjusting Kp and Ki control values, and adding more training samples for recovery at problem spots.
 
 #### 2. Final Model Architecture
 
